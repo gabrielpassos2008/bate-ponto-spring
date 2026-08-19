@@ -1,35 +1,31 @@
 package com.gabriel.bate_ponto.model;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Usuario {
+public class RegistroPonto {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String email;
-    private String senha;
-    private String nome;
-    private boolean ativo;
+    private LocalDate data;
+    private LocalTime hora;
+    private String tipo;
+    private String origem;
 
     @ManyToOne
-    @JoinColumn(name = "fk_gestor_id")
-    private Usuario gestor;
-
-    @OneToMany(mappedBy = "gestor")
-    private List<Usuario> subordinados;
-
-
+    @JoinColumn(name = "fk_usuario_id")
+    private Usuario usuario;
 }
