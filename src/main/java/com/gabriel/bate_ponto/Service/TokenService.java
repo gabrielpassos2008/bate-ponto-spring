@@ -3,6 +3,7 @@ package com.gabriel.bate_ponto.Service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.gabriel.bate_ponto.model.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,18 @@ public class TokenService {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 
+    private String validarToken(String token){
+        // Valida o token JWT e retorna o subject (identificação do usuário)
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(chaveSecreta);
+            return JWT.require(algorithm)
+                    .withIssuer("bate ponto")
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (JWTVerificationException exception) {
+            throw new JWTVerificationException("token invalido");
+        }
+    }
 
 }
