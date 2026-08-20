@@ -6,6 +6,8 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.gabriel.bate_ponto.model.Usuario;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -50,5 +52,10 @@ public class TokenService {
             throw new JWTVerificationException("token invalido");
         }
     }
-
+    public String retornarEmailDoToken(){
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        return authentication.getName();
+    }
 }
