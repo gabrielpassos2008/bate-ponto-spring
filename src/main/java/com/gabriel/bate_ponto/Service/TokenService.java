@@ -39,7 +39,7 @@ public class TokenService {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
 
-    private String validarToken(String token){
+    public String validarToken(String token){
         // Valida o token JWT e retorna o subject (identificação do usuário)
         try {
             Algorithm algorithm = Algorithm.HMAC256(chaveSecreta);
