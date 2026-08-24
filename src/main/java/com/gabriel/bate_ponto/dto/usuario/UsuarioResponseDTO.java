@@ -1,4 +1,6 @@
 package com.gabriel.bate_ponto.dto.usuario;
 
-public record UsuarioResponseDTO(String email, String nome, boolean ativo, String Role) {
+import com.gabriel.bate_ponto.model.Role;
+
+public record UsuarioResponseDTO(String email, String nome, boolean ativo, Role role) {
 }
