@@ -14,9 +14,13 @@ public class AdministradorService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public UsuarioResponseDTO registrarUsuario(UsuarioCreateDTO dto){
+        this.usuarioService.validarEmailJaExiste(dto.email());
         Usuario novo = new Usuario();
         novo.setNome(dto.nome());
         novo.setEmail(dto.email());
