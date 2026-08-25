@@ -3,5 +3,5 @@ package com.gabriel.bate_ponto.dto.usuario;
 import com.gabriel.bate_ponto.model.Role;
 import com.gabriel.bate_ponto.model.Usuario;
 
-public record UsuarioCreateDTO(String email, String senha, String nome, boolean ativo, Role role) {
+public record UsuarioCreateDTO(String email, String senha, String nome, boolean ativo, Role role, int IdCargo) {
 }
