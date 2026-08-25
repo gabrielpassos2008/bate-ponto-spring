@@ -36,7 +36,8 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "gestor")
     private List<Usuario> subordinados;
 
-    @OneToMany(mappedBy = "fk_cargo_id")
+    @ManyToOne
+    @JoinColumn(name = "fk_cargo_id")
     private Cargo cargo;
 
 
