@@ -179,13 +179,13 @@ erDiagram
         string senha_hash
         long gestor_id FK
         long cargo_id FK
+        string perfil_acesso "enum: COLABORADOR, GESTOR, ADMIN"
         boolean ativo
     }
 
     CARGO {
         long id PK
         string nome
-        string perfil_acesso
     }
 
     REGISTRO_PONTO {
@@ -221,8 +221,12 @@ erDiagram
 ### 5.2 Dicionário de dados (resumo)
 
 **USUARIO**
-- `tipo` de perfil vem de `CARGO.perfil_acesso` (ex.: COLABORADOR, GESTOR, ADMIN).
+- `perfil_acesso` define a role do usuário no sistema (enum: COLABORADOR, GESTOR, ADMIN) — usada diretamente pelo Spring Security na autenticação/autorização.
 - `gestor_id` é auto-relacionamento (um usuário aponta para seu gestor).
+- `cargo_id` é apenas descritivo (ex.: "Analista de RH"), não define permissão.
+
+**CARGO**
+- Tabela apenas descritiva, sem relação com permissões — serve para exibir o cargo da pessoa na empresa (ex.: relatórios, perfil do usuário).
 
 **REGISTRO_PONTO**
 - `tipo`: ENTRADA, INICIO_INTERVALO, FIM_INTERVALO, SAIDA.
