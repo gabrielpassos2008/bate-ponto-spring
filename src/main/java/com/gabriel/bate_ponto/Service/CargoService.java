@@ -2,6 +2,7 @@ package com.gabriel.bate_ponto.Service;
 
 import com.gabriel.bate_ponto.dto.cargo.CargoCreateDTO;
 import com.gabriel.bate_ponto.dto.cargo.CargoResponseDTO;
+import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
 import com.gabriel.bate_ponto.model.Cargo;
 import com.gabriel.bate_ponto.repository.CargoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,10 @@ public class CargoService {
                         cargo.getId()
                         ,cargo.getNome()))
                 .toList();
-        }
     }
+
+    public Cargo retornarPorId(Long id){
+        return cargoRepository.findById(id).orElseThrow(CargoNaoEncontradaException::new);
+    }
+}
 
