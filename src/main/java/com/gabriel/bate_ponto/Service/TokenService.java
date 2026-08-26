@@ -44,7 +44,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(chaveSecreta);
             return JWT.require(algorithm)
-                    .withIssuer("bate ponto")
+                    .withIssuer("Bate ponto")
                     .build()
                     .verify(token)
                     .getSubject();
