@@ -1,6 +1,7 @@
 package com.gabriel.bate_ponto.exceptions;
 
 import com.gabriel.bate_ponto.dto.exception.MensagemErroDTO;
+import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
 import com.gabriel.bate_ponto.exceptions.exceptions.EmailJaExisteException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.CONFLICT.name());
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
+                .body(erro);
+    }
+
+    @ExceptionHandler(CargoNaoEncontradaException.class)
+    public  ResponseEntity<MensagemErroDTO> CargoNaoEncontrado(CargoNaoEncontradaException exception){
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND.name());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(erro);
     }
 }
