@@ -7,6 +7,8 @@ import com.gabriel.bate_ponto.repository.CargoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CargoService {
 
@@ -20,4 +22,12 @@ public class CargoService {
         return new CargoResponseDTO(cargo.getId(), cargo.getNome());
     }
 
-}
+    public List<CargoResponseDTO> listarCargos(){
+        return cargoRepository.findAll().stream()
+                .map(cargo -> new CargoResponseDTO(
+                        cargo.getId()
+                        ,cargo.getNome()))
+                .toList();
+        }
+    }
+
