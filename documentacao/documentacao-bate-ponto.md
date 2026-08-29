@@ -284,6 +284,25 @@ flowchart TD
     E -- Rejeita --> I[Marca solicitação como REJEITADO]
     I --> J[Notifica colaborador: rejeitado + motivo]
 ```
+### 6.4 Fluxo — Cadastro de Colaborador (pelo Gestor)
+
+```mermaid
+flowchart TD
+    A[Gestor acessa tela de cadastro de colaborador] --> B[Preenche nome, e-mail, senha, cargo]
+    B --> C[Sistema define gestor_id = id do gestor logado]
+    C --> D[Sistema define perfil_acesso = COLABORADOR]
+    D --> E{E-mail já existe?}
+    E -- Sim --> F[Exibe erro: e-mail já cadastrado]
+    E -- Não --> G[Gera hash da senha]
+    G --> H[Grava usuário com perfil_acesso, cargo_id e gestor_id]
+    H --> I[Colaborador pronto para login]
+```
+
+**Observações sobre o fluxo:**
+- Somente o Gestor tem permissão para cadastrar novos usuários — essa tela nem aparece para perfil COLABORADOR.
+- Não há verificação de hierarquia: o Gestor já é o nível máximo do sistema, então todo colaborador cadastrado tem seu `gestor_id` apontando diretamente para o gestor que fez o cadastro.
+- O `perfil_acesso` do usuário cadastrado por esse fluxo é sempre COLABORADOR.
+
 
 ---
 
@@ -303,10 +322,10 @@ com.gabriel.pontoapp
  └── scheduler        (job diário de cálculo de banco de horas / alertas)
 ```
 
-**Stack sugerida:**
+**Stack:**
 - Backend: Java + Spring Boot + Spring Security (JWT) + Spring Data JPA
 - Banco de dados: PostgreSQL
-- Frontend: React ou Angular (ou app mobile, se preferir simular o caso de uso real de "bater ponto pelo celular")
+- Frontend: React (ou app mobile, para simular o caso de uso real de "bater ponto pelo celular")
 - Documentação de API: Swagger/OpenAPI
 
 ---
