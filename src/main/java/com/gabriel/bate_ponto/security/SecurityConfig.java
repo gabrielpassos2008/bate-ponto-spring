@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/ponto/adiministrador/registrar").permitAll()
+                        .requestMatchers("/ponto/administrador/registrar/adm").permitAll()
                         .requestMatchers("/ponto/adiministrador/**").hasRole("ADMIN")
                         .requestMatchers("/ponto/gestor/**").hasRole("GESTOR")
                         .requestMatchers("/ponto/colaborador/**").hasRole("COLABORADOR")
