@@ -17,9 +17,6 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private UsuarioService usuarioService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -32,7 +29,7 @@ public class UsuarioService {
     }
 
     public UsuarioResponseDTO registrarUsuario(UsuarioCreateDTO dto){
-        this.usuarioService.validarEmailJaExiste(dto.email());
+        this.validarEmailJaExiste(dto.email());
         Cargo cargo = cargoService.retornarPorId(dto.IdCargo());
 
         Usuario novo = new Usuario();
