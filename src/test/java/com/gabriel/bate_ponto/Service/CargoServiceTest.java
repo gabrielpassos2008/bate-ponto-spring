@@ -1,5 +1,6 @@
 package com.gabriel.bate_ponto.Service;
 
+import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
 import com.gabriel.bate_ponto.model.Cargo;
 import com.gabriel.bate_ponto.repository.CargoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -43,4 +45,14 @@ public class CargoServiceTest {
 
         verify(cargoRepository).findById(1L);
     }
+
+    @Test
+    void ValidarRetornarPorId_quandoNaoExiste(){
+        when(cargoRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(CargoNaoEncontradaException.class,() -> cargoService.retornarPorId(1L));
+        verify(cargoRepository).findById(1L);
+
+    }
+
 }
