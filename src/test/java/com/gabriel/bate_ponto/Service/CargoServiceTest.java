@@ -1,5 +1,6 @@
 package com.gabriel.bate_ponto.Service;
 
+import com.gabriel.bate_ponto.dto.cargo.CargoCreateDTO;
 import com.gabriel.bate_ponto.dto.cargo.CargoResponseDTO;
 import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
 import com.gabriel.bate_ponto.model.Cargo;
@@ -16,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -62,6 +64,17 @@ public class CargoServiceTest {
         List<CargoResponseDTO> lista = cargoService.listarCargos();
         assertEquals(1,lista.size());
         verify(cargoRepository).findAll();
+    }
+
+    @Test
+    void validarRegistrarCargo_deveRegistrarERetornarCargo(){
+        CargoCreateDTO dto = new CargoCreateDTO("gestor");
+        when(cargoRepository.save(cargo)).thenReturn(cargo);
+
+        CargoResponseDTO resultado = cargoService.registrarCargo(dto);
+        assertEquals(1L,resultado.id());
+        verify(cargoRepository).save(any(Cargo.class));
+
     }
 
 }
