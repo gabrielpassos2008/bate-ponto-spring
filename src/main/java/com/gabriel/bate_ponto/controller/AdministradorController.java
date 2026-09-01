@@ -2,16 +2,13 @@ package com.gabriel.bate_ponto.controller;
 
 import com.gabriel.bate_ponto.Service.AdministradorService;
 import com.gabriel.bate_ponto.Service.CargoService;
-import com.gabriel.bate_ponto.Service.UsuarioService;
+import com.gabriel.bate_ponto.Service.GestorService;
 import com.gabriel.bate_ponto.dto.administrador.AdminCreateDTO;
 import com.gabriel.bate_ponto.dto.administrador.AdminResponseDTO;
 import com.gabriel.bate_ponto.dto.cargo.CargoCreateDTO;
 import com.gabriel.bate_ponto.dto.cargo.CargoResponseDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioCreateDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
-import com.gabriel.bate_ponto.model.Usuario;
-import com.gabriel.bate_ponto.repository.UsuarioRepository;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +24,9 @@ public class AdministradorController {
     private AdministradorService administradorService;
 
     @Autowired
+    private GestorService gestorService;
+
+    @Autowired
     private CargoService cargoService;
 
     @PostMapping("/registrar/adm")
@@ -38,9 +38,9 @@ public class AdministradorController {
                 .status(HttpStatus.CREATED)
                 .body(usuario);
     }
-    @PostMapping("/registrar/adm")
+    @PostMapping("/registrar/gestor")
     public ResponseEntity<UsuarioResponseDTO> postResgistrarGestor(@RequestBody UsuarioCreateDTO dto){
-        UsuarioResponseDTO usuario = administradorService.registrarAdmin(dto);
+        UsuarioResponseDTO usuario = gestorService.registraGestor(dto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(usuario);

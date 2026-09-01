@@ -1,6 +1,7 @@
 package com.gabriel.bate_ponto.controller;
 
 import com.gabriel.bate_ponto.Service.CargoService;
+import com.gabriel.bate_ponto.Service.ColaboradorService;
 import com.gabriel.bate_ponto.Service.UsuarioService;
 import com.gabriel.bate_ponto.dto.administrador.AdminCreateDTO;
 import com.gabriel.bate_ponto.dto.administrador.AdminResponseDTO;
@@ -23,6 +24,9 @@ public class GestorController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private ColaboradorService colaboradorService;
+
     @GetMapping("/gestor/listar/cargo")
     public ResponseEntity<List<CargoResponseDTO>> getListarCargo(){
         return ResponseEntity
@@ -32,7 +36,7 @@ public class GestorController {
 
     @PostMapping("/registrar/colaborador")
     public ResponseEntity<UsuarioResponseDTO> postRegistrarAdm(@RequestBody UsuarioCreateDTO dto){
-        UsuarioResponseDTO usuario = usuarioService.registrarColaborador(dto);
+        UsuarioResponseDTO usuario = colaboradorService.registrarColaborador(dto);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
