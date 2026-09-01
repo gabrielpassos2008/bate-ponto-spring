@@ -33,28 +33,6 @@ public class UsuarioService {
         }
     }
 
-    public UsuarioResponseDTO registrarColaborador(UsuarioCreateDTO dto){
-
-        this.validarEmailJaExiste(dto.email());
-        Cargo cargo = cargoService.retornarPorId(dto.IdCargo());
-
-        Usuario novo = new Usuario();
-
-        novo.setNome(dto.nome());
-        novo.setEmail(dto.email());
-        novo.setAtivo(dto.ativo());
-
-        novo.setSenha(passwordEncoder.encode(dto.senha()));
-        novo.setRole(Role.ROLE_COLABORADOR);
-
-        novo.setGestor(retornarUsuarioAutenticado());
-        novo.setCargo(cargo);
-
-        this.usuarioRepository.save(novo);
-
-        return new UsuarioResponseDTO(novo.getEmail(), novo.getNome(), novo.isAtivo(),novo.getRole());
-    }
-
     public Usuario retornarPorEmail(String email){
         return usuarioRepository.findByEmail(email).orElseThrow(UsuarioNaoEncontradoException::new);
     }
