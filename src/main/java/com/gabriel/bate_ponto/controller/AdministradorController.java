@@ -11,6 +11,7 @@ import com.gabriel.bate_ponto.dto.usuario.UsuarioCreateDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
 import com.gabriel.bate_ponto.model.Usuario;
 import com.gabriel.bate_ponto.repository.UsuarioRepository;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,15 @@ public class AdministradorController {
     @PostMapping("/registrar/adm")
     //@PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<AdminResponseDTO> postRegistrarAdm(@RequestBody AdminCreateDTO dto){
-        AdminResponseDTO usuario = administradorService.registrarUsuario(dto);
+        AdminResponseDTO usuario = administradorService.registrarAdmin(dto);
 
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(usuario);
+    }
+    @PostMapping("/registrar/adm")
+    public ResponseEntity<UsuarioResponseDTO> postResgistrarGestor(@RequestBody UsuarioCreateDTO dto){
+        UsuarioResponseDTO usuario = administradorService.registrarAdmin(dto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(usuario);

@@ -39,12 +39,15 @@ public class UsuarioService {
         Cargo cargo = cargoService.retornarPorId(dto.IdCargo());
 
         Usuario novo = new Usuario();
-        novo.setGestor(retornarUsuarioAutenticado());
+
         novo.setNome(dto.nome());
         novo.setEmail(dto.email());
-        novo.setSenha(passwordEncoder.encode(dto.senha()));
         novo.setAtivo(dto.ativo());
+
+        novo.setSenha(passwordEncoder.encode(dto.senha()));
         novo.setRole(Role.ROLE_COLABORADOR);
+
+        novo.setGestor(retornarUsuarioAutenticado());
         novo.setCargo(cargo);
 
         this.usuarioRepository.save(novo);

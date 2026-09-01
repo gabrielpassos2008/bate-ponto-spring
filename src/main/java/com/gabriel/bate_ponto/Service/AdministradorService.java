@@ -24,7 +24,7 @@ public class AdministradorService {
     private PasswordEncoder passwordEncoder;
 
 
-    public AdminResponseDTO registrarUsuario(AdminCreateDTO dto){
+    public AdminResponseDTO registrarAdmin(AdminCreateDTO dto){
         this.usuarioService.validarEmailJaExiste(dto.email());
 
         Usuario novo = new Usuario();
