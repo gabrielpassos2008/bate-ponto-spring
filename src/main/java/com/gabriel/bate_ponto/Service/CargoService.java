@@ -2,6 +2,7 @@ package com.gabriel.bate_ponto.Service;
 
 import com.gabriel.bate_ponto.dto.cargo.CargoCreateDTO;
 import com.gabriel.bate_ponto.dto.cargo.CargoResponseDTO;
+import com.gabriel.bate_ponto.dto.cargo.CargoUpdateDTO;
 import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
 import com.gabriel.bate_ponto.model.Cargo;
 import com.gabriel.bate_ponto.repository.CargoRepository;
@@ -33,6 +34,12 @@ public class CargoService {
 
     public Cargo retornarPorId(Long id){
         return cargoRepository.findById(id).orElseThrow(CargoNaoEncontradaException::new);
+    }
+
+    public CargoResponseDTO editarCargo(CargoUpdateDTO dto){
+        Cargo cargo = retornarPorId(dto.id());
+        cargo.setNome(dto.nome());
+        return new CargoResponseDTO(cargo.getId(), cargo.getNome());
     }
 }
 
