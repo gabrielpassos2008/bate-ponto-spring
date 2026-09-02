@@ -7,6 +7,7 @@ import com.gabriel.bate_ponto.dto.administrador.AdminCreateDTO;
 import com.gabriel.bate_ponto.dto.administrador.AdminResponseDTO;
 import com.gabriel.bate_ponto.dto.cargo.CargoCreateDTO;
 import com.gabriel.bate_ponto.dto.cargo.CargoResponseDTO;
+import com.gabriel.bate_ponto.dto.cargo.CargoUpdateDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioCreateDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,12 @@ public class AdministradorController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(usuario);
+    }
+    @PutMapping("/editar/cargo")
+    public ResponseEntity<CargoResponseDTO> potEditarCargo(@RequestBody CargoUpdateDTO dto){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(cargoService.editarCargo(dto));
     }
 
     @PostMapping("/registrar/cargo")
