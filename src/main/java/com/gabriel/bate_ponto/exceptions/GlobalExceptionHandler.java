@@ -1,6 +1,7 @@
 package com.gabriel.bate_ponto.exceptions;
 
 import com.gabriel.bate_ponto.dto.exception.MensagemErroDTO;
+import com.gabriel.bate_ponto.exceptions.exceptions.CargoJaExisteException;
 import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
 import com.gabriel.bate_ponto.exceptions.exceptions.EmailJaExisteException;
 import com.gabriel.bate_ponto.exceptions.exceptions.UsuarioNaoEncontradoException;
@@ -15,6 +16,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EmailJaExisteException.class)
     public ResponseEntity<MensagemErroDTO> emailJaExiste(EmailJaExisteException exception){
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage(),
+                HttpStatus.CONFLICT.name());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(erro);
+    }
+
+    @ExceptionHandler(CargoJaExisteException.class)
+    public ResponseEntity<MensagemErroDTO> cargoJaExiste(CargoJaExisteException exception){
         MensagemErroDTO erro = new MensagemErroDTO(
                 HttpStatus.CONFLICT.value(),
                 exception.getMessage(),
