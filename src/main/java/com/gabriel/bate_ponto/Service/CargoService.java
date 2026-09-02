@@ -18,6 +18,7 @@ public class CargoService {
     private CargoRepository cargoRepository;
 
     public CargoResponseDTO registrarCargo(CargoCreateDTO dto){
+        this.validarNomeSeExiste(dto.nome());
         Cargo cargo = new Cargo();
         cargo.setNome(dto.nome());
         cargoRepository.save(cargo);
@@ -37,9 +38,16 @@ public class CargoService {
     }
 
     public CargoResponseDTO editarCargo(CargoUpdateDTO dto){
+        this.validarNomeSeExiste(dto.nome());
         Cargo cargo = retornarPorId(dto.id());
         cargo.setNome(dto.nome());
         return new CargoResponseDTO(cargo.getId(), cargo.getNome());
+    }
+
+    public void validarNomeSeExiste(String nome){
+        if (cargoRepository.existsByNome(nome)){
+            throw new CargoNaoEncontradaException();
+        }
     }
 }
 
