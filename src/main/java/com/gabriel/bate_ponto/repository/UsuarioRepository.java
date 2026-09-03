@@ -18,4 +18,6 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<List<Usuario>> findByRole(Role role);
 
     Optional<List<Usuario>> findByRoleAndGestor(Role role, Usuario gestor);
+
+    List<Optional<Usuario>> findByGestorAndNomeContainingIgnoreCase(Usuario gestor,String nome);
 }
