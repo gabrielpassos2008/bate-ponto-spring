@@ -33,6 +33,12 @@ public class GestorController {
                 .status(HttpStatus.CREATED)
                 .body(cargoService.listarCargos());
     }
+    @GetMapping("/listar/colaborador")
+    public ResponseEntity<List<UsuarioResponseDTO>> getListarColaborador(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(colaboradorService.listaDeUsuarioPeloGestor());
+    }
 
     @PostMapping("/registrar/colaborador")
     public ResponseEntity<UsuarioResponseDTO> postRegistrarAdm(@RequestBody UsuarioCreateDTO dto){
