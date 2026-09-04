@@ -1,5 +1,6 @@
 package com.gabriel.bate_ponto.Service;
 
+import com.gabriel.bate_ponto.dto.pesquisa.PesquisaUsuarioDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioCreateDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
 import com.gabriel.bate_ponto.exceptions.exceptions.EmailJaExisteException;
@@ -11,6 +12,8 @@ import com.gabriel.bate_ponto.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -39,5 +42,15 @@ public class UsuarioService {
 
     public Usuario retornarUsuarioAutenticado(){
         return retornarPorEmail(tokenService.retornarEmailDoToken());
+    }
+
+    public List<UsuarioResponseDTO> pesquisarUsuario(PesquisaUsuarioDTO dto){
+        return usuarioRepository.findByGestorAndCargoAndNomeContainingIgnoreCase(
+                this.retornarUsuarioAutenticado(),
+                cargoService.retornarPorId(dto.idCargo()),
+                dto.pesquisa())
+                .orElseThrow(UsuarioNaoEncontradoException::new)
+                .stream().map(usuario -> new UsuarioResponseDTO(usuario.getEmail(), usuario.getNome(), usuario.isAtivo(), usuario.getRole(), usuario.getCargo()))
+                .toList();
     }
 }
