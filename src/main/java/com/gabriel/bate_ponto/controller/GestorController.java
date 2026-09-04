@@ -6,6 +6,7 @@ import com.gabriel.bate_ponto.Service.UsuarioService;
 import com.gabriel.bate_ponto.dto.administrador.AdminCreateDTO;
 import com.gabriel.bate_ponto.dto.administrador.AdminResponseDTO;
 import com.gabriel.bate_ponto.dto.cargo.CargoResponseDTO;
+import com.gabriel.bate_ponto.dto.pesquisa.PesquisaUsuarioDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioCreateDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,10 @@ public class GestorController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(colaboradorService.listaDeUsuarioPeloGestor());
+    }
+    @GetMapping("/pesquisar/Usuario")
+    public ResponseEntity<List<UsuarioResponseDTO>> getPesquisaUsuario(@RequestBody PesquisaUsuarioDTO dto){
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioService.pesquisarUsuario(dto));
     }
 
     @PostMapping("/registrar/colaborador")
