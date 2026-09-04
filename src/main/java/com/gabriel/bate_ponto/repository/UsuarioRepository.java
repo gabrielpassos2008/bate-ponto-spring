@@ -1,5 +1,6 @@
 package com.gabriel.bate_ponto.repository;
 
+import com.gabriel.bate_ponto.model.Cargo;
 import com.gabriel.bate_ponto.model.Role;
 import com.gabriel.bate_ponto.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,5 +20,5 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
     Optional<List<Usuario>> findByRoleAndGestor(Role role, Usuario gestor);
 
-    List<Optional<Usuario>> findByGestorAndNomeContainingIgnoreCase(Usuario gestor,String nome);
+    Optional<List<Usuario>> findByGestorAndCargoAndNomeContainingIgnoreCase(Usuario gestor, Cargo cargo, String nome);
 }
