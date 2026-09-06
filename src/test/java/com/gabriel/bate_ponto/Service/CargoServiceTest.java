@@ -2,6 +2,7 @@ package com.gabriel.bate_ponto.Service;
 
 import com.gabriel.bate_ponto.dto.cargo.CargoCreateDTO;
 import com.gabriel.bate_ponto.dto.cargo.CargoResponseDTO;
+import com.gabriel.bate_ponto.exceptions.exceptions.CargoJaExisteException;
 import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
 import com.gabriel.bate_ponto.model.Cargo;
 import com.gabriel.bate_ponto.repository.CargoRepository;
@@ -74,7 +75,14 @@ public class CargoServiceTest {
         CargoResponseDTO resultado = cargoService.registrarCargo(dto);
         assertEquals(1L,resultado.id());
         verify(cargoRepository).save(any(Cargo.class));
+    }
 
+    @Test
+    void validarRegistrarCargo_deveRegistrarERetornarException(){
+        CargoCreateDTO dto = new CargoCreateDTO("gestor");
+        when(cargoRepository.existsByNome(dto.nome())).thenReturn(true);
+        assertThrows(CargoJaExisteException.class,()-> cargoService.registrarCargo(dto));
+        verify(cargoRepository).existsByNome(dto.nome());
     }
 
 }
