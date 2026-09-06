@@ -40,7 +40,7 @@ public class GestorController {
                 .status(HttpStatus.OK)
                 .body(colaboradorService.listaDeUsuarioPeloGestor());
     }
-    @GetMapping("/pesquisar/Usuario")
+    @GetMapping("/pesquisar/usuario")
     public ResponseEntity<List<UsuarioResponseDTO>> getPesquisaUsuario(@RequestBody PesquisaUsuarioDTO dto){
         return ResponseEntity.status(HttpStatus.OK).body(usuarioService.pesquisarUsuario(dto));
     }
@@ -48,7 +48,6 @@ public class GestorController {
     @PostMapping("/registrar/colaborador")
     public ResponseEntity<UsuarioResponseDTO> postRegistrarAdm(@RequestBody UsuarioCreateDTO dto){
         UsuarioResponseDTO usuario = colaboradorService.registrarColaborador(dto);
-
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(usuario);

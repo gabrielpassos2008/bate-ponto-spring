@@ -44,7 +44,7 @@ public class GestorService {
 
         this.usuarioRepository.save(novo);
 
-        return new UsuarioResponseDTO(novo.getEmail(), novo.getNome(), novo.isAtivo(),novo.getRole());
+        return new UsuarioResponseDTO(novo.getEmail(), novo.getNome(), novo.isAtivo(),novo.getRole(),novo.getCargo());
     }
 
 }
