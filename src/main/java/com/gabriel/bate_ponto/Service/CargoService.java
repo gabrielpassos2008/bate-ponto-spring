@@ -3,6 +3,7 @@ package com.gabriel.bate_ponto.Service;
 import com.gabriel.bate_ponto.dto.cargo.CargoCreateDTO;
 import com.gabriel.bate_ponto.dto.cargo.CargoResponseDTO;
 import com.gabriel.bate_ponto.dto.cargo.CargoUpdateDTO;
+import com.gabriel.bate_ponto.exceptions.exceptions.CargoJaExisteException;
 import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
 import com.gabriel.bate_ponto.model.Cargo;
 import com.gabriel.bate_ponto.repository.CargoRepository;
@@ -46,7 +47,7 @@ public class CargoService {
 
     public void validarNomeSeExiste(String nome){
         if (cargoRepository.existsByNome(nome)){
-            throw new CargoNaoEncontradaException();
+            throw new CargoJaExisteException();
         }
     }
 }
