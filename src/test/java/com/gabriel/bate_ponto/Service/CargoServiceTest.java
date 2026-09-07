@@ -91,4 +91,11 @@ public class CargoServiceTest {
         verify(cargoRepository).existsByNome(cargo.getNome());
     }
 
+    @Test
+    void validarNomeSeExiste_quandoNaoExiste(){
+        when(cargoRepository.existsByNome(cargo.getNome())).thenReturn(false);
+        cargoService.validarNomeSeExiste(cargo.getNome());
+        verify(cargoRepository).existsByNome(cargo.getNome());
+    }
+
 }
