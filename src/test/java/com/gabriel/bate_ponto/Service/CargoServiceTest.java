@@ -84,5 +84,11 @@ public class CargoServiceTest {
         assertThrows(CargoJaExisteException.class,()-> cargoService.registrarCargo(dto));
         verify(cargoRepository).existsByNome(dto.nome());
     }
+    @Test
+    void validarNomeSeExiste_quandoExisteERetornaException(){
+        when(cargoRepository.existsByNome(cargo.getNome())).thenReturn(true);
+        assertThrows(CargoJaExisteException.class,()->cargoService.validarNomeSeExiste(cargo.getNome()));
+        verify(cargoRepository).existsByNome(cargo.getNome());
+    }
 
 }
