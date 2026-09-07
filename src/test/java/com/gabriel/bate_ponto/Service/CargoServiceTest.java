@@ -70,10 +70,11 @@ public class CargoServiceTest {
     @Test
     void validarRegistrarCargo_deveRegistrarERetornarCargo(){
         CargoCreateDTO dto = new CargoCreateDTO("gestor");
-        when(cargoRepository.save(cargo)).thenReturn(cargo);
+        when(cargoRepository.save(any(Cargo.class)))
+                .thenReturn(cargo);
 
         CargoResponseDTO resultado = cargoService.registrarCargo(dto);
-        assertEquals(1L,resultado.id());
+        assertEquals("gestor",resultado.nome());
         verify(cargoRepository).save(any(Cargo.class));
     }
 
