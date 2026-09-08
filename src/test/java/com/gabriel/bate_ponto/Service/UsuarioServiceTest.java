@@ -1,6 +1,7 @@
 package com.gabriel.bate_ponto.Service;
 
 import com.gabriel.bate_ponto.exceptions.exceptions.EmailJaExisteException;
+import com.gabriel.bate_ponto.exceptions.exceptions.UsuarioNaoEncontradoException;
 import com.gabriel.bate_ponto.model.Usuario;
 import com.gabriel.bate_ponto.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -57,6 +58,12 @@ public class UsuarioServiceTest {
         when(usuarioRepository.findByEmail(usuario.getEmail())).thenReturn(Optional.of(usuario));
         Usuario resultado = usuarioService.retornarPorEmail(usuario.getEmail());
         assertEquals(resultado,usuario);
+        verify(usuarioRepository).findByEmail(usuario.getEmail());
+    }
+    @Test
+    void retornarPorEmail_quandoNaoExiste(){
+        when(usuarioRepository.findByEmail(usuario.getEmail())).thenReturn(Optional.empty());
+        assertThrows(UsuarioNaoEncontradoException.class,() -> usuarioService.retornarPorEmail(usuario.getEmail()));
         verify(usuarioRepository).findByEmail(usuario.getEmail());
     }
 }
