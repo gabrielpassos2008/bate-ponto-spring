@@ -1,5 +1,6 @@
 package com.gabriel.bate_ponto.Service;
 
+import com.gabriel.bate_ponto.exceptions.exceptions.EmailJaExisteException;
 import com.gabriel.bate_ponto.model.Usuario;
 import com.gabriel.bate_ponto.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,6 +39,13 @@ public class UsuarioServiceTest {
     void validarEmailJaExiste_quandoExiste(){
         when(usuarioRepository.existsByEmail(usuario.getEmail())).thenReturn(false);
         usuarioService.validarEmailJaExiste(usuario.getEmail());
+        verify(usuarioRepository).existsByEmail(usuario.getEmail());
+    }
+
+    @Test
+    void validarEmailJaExiste_quandoNaoExiste(){
+        when(usuarioRepository.existsByEmail(usuario.getEmail())).thenReturn(true);
+        assertThrows(EmailJaExisteException.class,()->usuarioService.validarEmailJaExiste(usuario.getEmail()));
         verify(usuarioRepository).existsByEmail(usuario.getEmail());
     }
 }
