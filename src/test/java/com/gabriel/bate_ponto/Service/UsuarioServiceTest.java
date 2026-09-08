@@ -10,6 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,5 +50,13 @@ public class UsuarioServiceTest {
         when(usuarioRepository.existsByEmail(usuario.getEmail())).thenReturn(true);
         assertThrows(EmailJaExisteException.class,()->usuarioService.validarEmailJaExiste(usuario.getEmail()));
         verify(usuarioRepository).existsByEmail(usuario.getEmail());
+    }
+
+    @Test
+    void retornarPorEmail_quandoExiste(){
+        when(usuarioRepository.findByEmail(usuario.getEmail())).thenReturn(Optional.of(usuario));
+        Usuario resultado = usuarioService.retornarPorEmail(usuario.getEmail());
+        assertEquals(resultado,usuario);
+        verify(usuarioRepository).findByEmail(usuario.getEmail());
     }
 }
