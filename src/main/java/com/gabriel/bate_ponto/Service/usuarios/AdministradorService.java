@@ -1,4 +1,4 @@
-package com.gabriel.bate_ponto.Service;
+package com.gabriel.bate_ponto.Service.usuarios;
 
 import com.gabriel.bate_ponto.dto.administrador.AdminCreateDTO;
 import com.gabriel.bate_ponto.dto.administrador.AdminResponseDTO;

@@ -1,7 +1,9 @@
-package com.gabriel.bate_ponto.Service;
+package com.gabriel.bate_ponto.Service.usuarios;
 
+import com.gabriel.bate_ponto.Service.CargoService;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioCreateDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
+import com.gabriel.bate_ponto.exceptions.exceptions.UsuarioNaoEncontradoException;
 import com.gabriel.bate_ponto.model.Cargo;
 import com.gabriel.bate_ponto.model.Role;
 import com.gabriel.bate_ponto.model.Usuario;
@@ -10,9 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service
-public class GestorService {
+import java.util.List;
 
+@Service
+public class ColaboradorService {
     @Autowired
     private UsuarioService usuarioService;
 
@@ -25,7 +28,7 @@ public class GestorService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    public UsuarioResponseDTO registraGestor(UsuarioCreateDTO dto){
+    public UsuarioResponseDTO registrarColaborador(UsuarioCreateDTO dto){
 
         this.usuarioService.validarEmailJaExiste(dto.email());
         Cargo cargo = cargoService.retornarPorId(dto.IdCargo());
@@ -37,7 +40,7 @@ public class GestorService {
         novo.setAtivo(dto.ativo());
 
         novo.setSenha(passwordEncoder.encode(dto.senha()));
-        novo.setRole(Role.ROLE_GESTOR);
+        novo.setRole(Role.ROLE_COLABORADOR);
 
         novo.setGestor(usuarioService.retornarUsuarioAutenticado());
         novo.setCargo(cargo);
@@ -47,4 +50,9 @@ public class GestorService {
         return new UsuarioResponseDTO(novo.getEmail(), novo.getNome(), novo.isAtivo(),novo.getRole(),novo.getCargo());
     }
 
+    public List<UsuarioResponseDTO> listaDeUsuarioPeloGestor(){
+        Usuario usuario = usuarioService.retornarUsuarioAutenticado();
+        return usuarioRepository.findByRoleAndGestor(Role.ROLE_COLABORADOR,usuario).orElseThrow(UsuarioNaoEncontradoException::new)
+                .stream().map(Usuario -> new UsuarioResponseDTO(usuario.getEmail(), usuario.getNome(), usuario.isAtivo(), usuario.getRole(),usuario.getCargo())).toList();
+    }
 }
