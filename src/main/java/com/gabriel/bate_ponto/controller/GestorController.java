@@ -1,10 +1,8 @@
 package com.gabriel.bate_ponto.controller;
 
 import com.gabriel.bate_ponto.Service.CargoService;
-import com.gabriel.bate_ponto.Service.ColaboradorService;
-import com.gabriel.bate_ponto.Service.UsuarioService;
-import com.gabriel.bate_ponto.dto.administrador.AdminCreateDTO;
-import com.gabriel.bate_ponto.dto.administrador.AdminResponseDTO;
+import com.gabriel.bate_ponto.Service.usuarios.ColaboradorService;
+import com.gabriel.bate_ponto.Service.usuarios.UsuarioService;
 import com.gabriel.bate_ponto.dto.cargo.CargoResponseDTO;
 import com.gabriel.bate_ponto.dto.pesquisa.PesquisaUsuarioDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioCreateDTO;

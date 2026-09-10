@@ -1,5 +1,6 @@
 package com.gabriel.bate_ponto.Service;
 
+import com.gabriel.bate_ponto.Service.usuarios.UsuarioService;
 import com.gabriel.bate_ponto.dto.pesquisa.PesquisaUsuarioDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
 import com.gabriel.bate_ponto.exceptions.exceptions.EmailJaExisteException;
@@ -87,7 +88,7 @@ public class UsuarioServiceTest {
     @Test
     void validarPesquisarUsuario_quandoExiste(){
         List<Usuario> listaUsuario = List.of(usuario);
-        when(usuarioRepository.findByGestorAndCargoAndNomeContainingIgnoreCase(gestor,cargo,"teste")).thenReturn(listaUsuario);
+        //when(usuarioRepository.findByGestorAndCargoAndNomeContainingIgnoreCase(gestor,cargo,"teste")).thenReturn(listaUsuario);
         List<UsuarioResponseDTO> lista = usuarioService.pesquisarUsuario(new PesquisaUsuarioDTO("teste",cargo.getId()));
 
     }
