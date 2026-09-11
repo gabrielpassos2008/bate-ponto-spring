@@ -10,5 +10,5 @@ public interface RegistroPontoRepository extends JpaRepository<RegistroPonto,Lon
 
     RegistroPonto findTopByUsuarioAndDataOrderByHoraDesc( Usuario usuario, LocalDate data);
 
-    boolean existsByDataAndUsuario(LocalDate data, Usuario usuario);
+    boolean existsByDataAndUsuarioAndTipo(LocalDate data, Usuario usuario, String tipo);
 }
