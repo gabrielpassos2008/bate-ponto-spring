@@ -1,10 +1,7 @@
 package com.gabriel.bate_ponto.exceptions;
 
 import com.gabriel.bate_ponto.dto.exception.MensagemErroDTO;
-import com.gabriel.bate_ponto.exceptions.exceptions.CargoJaExisteException;
-import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
-import com.gabriel.bate_ponto.exceptions.exceptions.EmailJaExisteException;
-import com.gabriel.bate_ponto.exceptions.exceptions.UsuarioNaoEncontradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +13,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EmailJaExisteException.class)
     public ResponseEntity<MensagemErroDTO> emailJaExiste(EmailJaExisteException exception){
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage(),
+                HttpStatus.CONFLICT.name());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(erro);
+    }
+    @ExceptionHandler(PontoJaRegistradoException.class)
+    public ResponseEntity<MensagemErroDTO> pontoJaRegistrado (PontoJaRegistradoException exception){
         MensagemErroDTO erro = new MensagemErroDTO(
                 HttpStatus.CONFLICT.value(),
                 exception.getMessage(),
