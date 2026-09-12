@@ -2,6 +2,8 @@ package com.gabriel.bate_ponto.Service;
 
 import com.gabriel.bate_ponto.Service.usuarios.UsuarioService;
 import com.gabriel.bate_ponto.dto.registroPonto.RegistroPontoResponse;
+import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
+import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
 import com.gabriel.bate_ponto.exceptions.exceptions.PontoJaRegistradoException;
 import com.gabriel.bate_ponto.model.RegistroPonto;
 import com.gabriel.bate_ponto.model.Usuario;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Service
 public class RegistroPontoService {
@@ -38,6 +41,13 @@ public class RegistroPontoService {
                 ponto.getData(),
                 ponto.getHora(),
                 ponto.getTipo());
+    }
+    public List<RegistroPontoResponse> listarPontoPorDia(){
+        return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),LocalDate.now())
+                .orElseThrow(CargoNaoEncontradaException::new)
+                .stream()
+                .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
+                .toList();
     }
 
     public void validarSeExistePonto(Usuario usuario, LocalDate data){
