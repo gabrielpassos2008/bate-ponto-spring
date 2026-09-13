@@ -1,6 +1,7 @@
 package com.gabriel.bate_ponto.Service;
 
 import com.gabriel.bate_ponto.Service.usuarios.UsuarioService;
+import com.gabriel.bate_ponto.dto.pesquisa.PesquisaRegistroPontoDTO;
 import com.gabriel.bate_ponto.dto.registroPonto.RegistroPontoResponse;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
 import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
@@ -42,8 +43,16 @@ public class RegistroPontoService {
                 ponto.getHora(),
                 ponto.getTipo());
     }
-    public List<RegistroPontoResponse> listarPontoPorDia(){
+    public List<RegistroPontoResponse> listarPontoPorDiaDeHoje(){
         return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),LocalDate.now())
+                .orElseThrow(CargoNaoEncontradaException::new)
+                .stream()
+                .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
+                .toList();
+    }
+
+    public List<RegistroPontoResponse> listarPontoPorDiaDaPesquisa(PesquisaRegistroPontoDTO dto){
+        return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),dto.data())
                 .orElseThrow(CargoNaoEncontradaException::new)
                 .stream()
                 .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
