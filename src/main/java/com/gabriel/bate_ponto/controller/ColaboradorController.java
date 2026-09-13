@@ -1,15 +1,14 @@
 package com.gabriel.bate_ponto.controller;
 
 import com.gabriel.bate_ponto.Service.RegistroPontoService;
+import com.gabriel.bate_ponto.dto.pesquisa.PesquisaRegistroPontoDTO;
 import com.gabriel.bate_ponto.dto.registroPonto.RegistroPontoCreate;
 import com.gabriel.bate_ponto.dto.registroPonto.RegistroPontoResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +29,12 @@ public class ColaboradorController {
     public ResponseEntity<List<RegistroPontoResponse>> getListarPontos(){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(pontoService.listarPontoPorDia());
+                .body(pontoService.listarPontoPorDiaDeHoje());
+    }
+    @GetMapping("/pesquisar/registros")
+    public ResponseEntity<List<RegistroPontoResponse>> getPesquisarPontos(@RequestBody @Valid PesquisaRegistroPontoDTO dto){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(pontoService.listarPontoPorDiaDaPesquisa(dto));
     }
 }
