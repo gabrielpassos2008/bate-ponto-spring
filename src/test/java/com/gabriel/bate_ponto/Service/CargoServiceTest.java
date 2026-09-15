@@ -66,6 +66,14 @@ public class CargoServiceTest {
         assertEquals(1,lista.size());
         verify(cargoRepository).findAll();
     }
+    @Test
+    void ValidarlistarCargos_quandoNaoExiste(){
+        when(cargoRepository.findAll()).thenReturn(List.of());
+        List<CargoResponseDTO> lista = cargoService.listarCargos();
+        assertEquals(0,lista.size());
+        verify(cargoRepository).findAll();
+    }
+
 
     @Test
     void validarRegistrarCargo_deveRegistrarERetornarCargo(){
