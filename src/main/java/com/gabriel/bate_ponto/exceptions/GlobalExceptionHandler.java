@@ -41,6 +41,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(erro);
     }
+    @ExceptionHandler(PontoNaoEncontradoException.class)
+    public ResponseEntity<MensagemErroDTO> pontoNaoEncontrado (PontoNaoEncontradoException exception){
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage(),
+                HttpStatus.NOT_FOUND.name());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(erro);
+    }
 
     @ExceptionHandler(CargoJaExisteException.class)
     public ResponseEntity<MensagemErroDTO> cargoJaExiste(CargoJaExisteException exception){
