@@ -25,16 +25,16 @@ public class ColaboradorController {
                 .status(HttpStatus.CREATED)
                 .body(pontoService.registrarPonto());
     }
-    @GetMapping("/listar/registros")
+    @GetMapping("/listar/registros/hoje")
     public ResponseEntity<List<RegistroPontoResponse>> getListarPontos(){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(pontoService.listarPontoPorDiaDeHoje());
     }
-    @GetMapping("/pesquisar/registros")
+    @GetMapping("/listar/registros/pesquisar")
     public ResponseEntity<List<RegistroPontoResponse>> getPesquisarPontos(@RequestBody @Valid PesquisaRegistroPontoDTO dto){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(pontoService.listarPontoPorDiaDaPesquisa(dto));
+                .body(pontoService.listarPontoPorDia(dto.data()));
     }
 }

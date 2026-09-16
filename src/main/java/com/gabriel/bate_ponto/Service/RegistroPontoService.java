@@ -6,6 +6,7 @@ import com.gabriel.bate_ponto.dto.registroPonto.RegistroPontoResponse;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
 import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
 import com.gabriel.bate_ponto.exceptions.exceptions.PontoJaRegistradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.PontoNaoEncontradoException;
 import com.gabriel.bate_ponto.exceptions.exceptions.PontoNaoRegistradoException;
 import com.gabriel.bate_ponto.model.RegistroPonto;
 import com.gabriel.bate_ponto.model.Usuario;
@@ -31,6 +32,7 @@ public class RegistroPontoService {
         LocalDate data = LocalDate.now();
         LocalTime hora = LocalTime.now();
         Usuario usuario = usuarioService.retornarUsuarioAutenticado();
+        this.validarSeExistePonto(usuario,data);
 
         RegistroPonto ponto = new RegistroPonto();
         ponto.setData(data);
@@ -44,9 +46,10 @@ public class RegistroPontoService {
                 ponto.getHora(),
                 ponto.getTipo());
     }
+
     public List<RegistroPontoResponse> listarPontoPorDiaDeHoje(){
         return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),LocalDate.now())
-                .orElseThrow(CargoNaoEncontradaException::new)// ajustar a exception
+                .orElseThrow(PontoNaoEncontradoException::new)
                 .stream()
                 .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
                 .toList();
@@ -54,7 +57,7 @@ public class RegistroPontoService {
 
     public List<RegistroPontoResponse> listarPontoPorDia(LocalDate data){
         return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),data)
-                .orElseThrow(CargoNaoEncontradaException::new) // ajustar a exception
+                .orElseThrow(PontoNaoEncontradoException::new)
                 .stream()
                 .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
                 .toList();
@@ -66,15 +69,15 @@ public class RegistroPontoService {
         }
     }
 
-    public void ValidarSeRegistroEstaCompleto(LocalDate data){
+    public void validarSeRegistroEstaCompleto(LocalDate data){
         List<RegistroPontoResponse> lista = listarPontoPorDia(data);
         if (lista.size() != 4 && !"Saída".equals(retornarTipo(usuarioService.retornarUsuarioAutenticado(),data)) ){
             throw new PontoNaoRegistradoException();
         }
+        // repensar o método.
     }
 
     public String retornarTipo(Usuario usuario, LocalDate data){
-        this.validarSeExistePonto(usuario,data);
         RegistroPonto ponto = pontoRepository.findTopByUsuarioAndDataOrderByHoraDesc(usuario,data);
         if (ponto == null){
             return "Início";
@@ -86,16 +89,5 @@ public class RegistroPontoService {
         return "Saída";
 
     }
-
-
-
-
-
-
-
-
-
-
-
 }
 
