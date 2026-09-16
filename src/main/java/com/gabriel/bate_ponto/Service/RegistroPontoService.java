@@ -6,6 +6,7 @@ import com.gabriel.bate_ponto.dto.registroPonto.RegistroPontoResponse;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
 import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
 import com.gabriel.bate_ponto.exceptions.exceptions.PontoJaRegistradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.PontoNaoRegistradoException;
 import com.gabriel.bate_ponto.model.RegistroPonto;
 import com.gabriel.bate_ponto.model.Usuario;
 import com.gabriel.bate_ponto.repository.RegistroPontoRepository;
@@ -45,15 +46,15 @@ public class RegistroPontoService {
     }
     public List<RegistroPontoResponse> listarPontoPorDiaDeHoje(){
         return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),LocalDate.now())
-                .orElseThrow(CargoNaoEncontradaException::new)
+                .orElseThrow(CargoNaoEncontradaException::new)// ajustar a exception
                 .stream()
                 .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
                 .toList();
     }
 
-    public List<RegistroPontoResponse> listarPontoPorDiaDaPesquisa(PesquisaRegistroPontoDTO dto){
-        return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),dto.data())
-                .orElseThrow(CargoNaoEncontradaException::new)
+    public List<RegistroPontoResponse> listarPontoPorDia(LocalDate data){
+        return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),data)
+                .orElseThrow(CargoNaoEncontradaException::new) // ajustar a exception
                 .stream()
                 .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
                 .toList();
@@ -62,6 +63,13 @@ public class RegistroPontoService {
     public void validarSeExistePonto(Usuario usuario, LocalDate data){
         if(pontoRepository.existsByDataAndUsuarioAndTipo(data,usuario, "Saída")){
             throw new PontoJaRegistradoException();
+        }
+    }
+
+    public void ValidarSeRegistroEstaCompleto(LocalDate data){
+        List<RegistroPontoResponse> lista = listarPontoPorDia(data);
+        if (lista.size() != 4 && !"Saída".equals(retornarTipo(usuarioService.retornarUsuarioAutenticado(),data)) ){
+            throw new PontoNaoRegistradoException();
         }
     }
 
