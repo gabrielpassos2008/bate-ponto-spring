@@ -22,7 +22,7 @@ public class RegistroPonto {
     private Long id;
     private LocalDate data;
     private LocalTime hora;
-    private String tipo;
+    private TipoPonto tipo;
     private String origem;
 
     @ManyToOne
