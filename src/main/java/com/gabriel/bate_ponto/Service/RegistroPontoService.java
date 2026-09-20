@@ -6,6 +6,7 @@ import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoJaRegistradoExcep
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoEncontradoException;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoRegistradoException;
 import com.gabriel.bate_ponto.model.RegistroPonto;
+import com.gabriel.bate_ponto.model.TipoPonto;
 import com.gabriel.bate_ponto.model.Usuario;
 import com.gabriel.bate_ponto.repository.RegistroPontoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,7 +67,7 @@ public class RegistroPontoService {
         }
     }
 
-    public void validarSetTemQuatroRegistro(LocalDate data){
+    public void validarSeTemQuatroRegistro(LocalDate data){
         List<RegistroPontoResponse> lista = listarPontoPorDia(data);
         if (lista.size() != 4){
             throw new PontoNaoRegistradoException();
@@ -74,17 +75,17 @@ public class RegistroPontoService {
         // repensar o metodo.
     }
 
-    public String retornarTipo(Usuario usuario, LocalDate data){
+
+    public TipoPonto retornarTipo(Usuario usuario, LocalDate data){
         RegistroPonto ponto = pontoRepository.findTopByUsuarioAndDataOrderByHoraDesc(usuario,data);
         if (ponto == null){
-            return "Início";
-        } else if (ponto.getTipo().equals("Início")) {
-            return "Intervalo";
-        } else if (ponto.getTipo().equals("Intervalo")) {
-            return "Fim Intervalo";
+            return TipoPonto.INICIO;
+        } else if (ponto.getTipo().equals(TipoPonto.INICIO)) {
+            return TipoPonto.INTERVALO;
+        } else if (ponto.getTipo().equals(TipoPonto.INTERVALO)) {
+            return TipoPonto.FIM_INTERVALO;
         }
-        return "Saída";
-
+        return TipoPonto.SAIDA;
     }
 }
 
