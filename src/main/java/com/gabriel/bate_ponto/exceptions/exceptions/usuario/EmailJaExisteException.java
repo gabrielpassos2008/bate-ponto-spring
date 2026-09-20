@@ -1,4 +1,4 @@
-package com.gabriel.bate_ponto.exceptions.exceptions;
+package com.gabriel.bate_ponto.exceptions.exceptions.usuario;
 
 public class EmailJaExisteException extends RuntimeException {
     public EmailJaExisteException(String message) {

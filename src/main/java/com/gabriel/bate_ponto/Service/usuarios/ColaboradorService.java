@@ -3,7 +3,7 @@ package com.gabriel.bate_ponto.Service.usuarios;
 import com.gabriel.bate_ponto.Service.CargoService;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioCreateDTO;
 import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
-import com.gabriel.bate_ponto.exceptions.exceptions.UsuarioNaoEncontradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.usuario.UsuarioNaoEncontradoException;
 import com.gabriel.bate_ponto.model.Cargo;
 import com.gabriel.bate_ponto.model.Role;
 import com.gabriel.bate_ponto.model.Usuario;

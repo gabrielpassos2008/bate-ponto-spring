@@ -1,4 +1,4 @@
-package com.gabriel.bate_ponto.exceptions.exceptions;
+package com.gabriel.bate_ponto.exceptions.exceptions.ponto;
 
 public class PontoNaoRegistradoException extends RuntimeException {
     public PontoNaoRegistradoException(String message) {

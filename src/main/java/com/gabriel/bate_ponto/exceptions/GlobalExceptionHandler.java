@@ -1,7 +1,13 @@
 package com.gabriel.bate_ponto.exceptions;
 
 import com.gabriel.bate_ponto.dto.exception.MensagemErroDTO;
-import com.gabriel.bate_ponto.exceptions.exceptions.*;
+import com.gabriel.bate_ponto.exceptions.exceptions.cargo.CargoJaExisteException;
+import com.gabriel.bate_ponto.exceptions.exceptions.cargo.CargoNaoEncontradaException;
+import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoJaRegistradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoEncontradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoRegistradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.usuario.EmailJaExisteException;
+import com.gabriel.bate_ponto.exceptions.exceptions.usuario.UsuarioNaoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

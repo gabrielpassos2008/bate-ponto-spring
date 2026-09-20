@@ -2,7 +2,7 @@ package com.gabriel.bate_ponto.Service.usuarios;
 
 import com.gabriel.bate_ponto.dto.administrador.AdminCreateDTO;
 import com.gabriel.bate_ponto.dto.administrador.AdminResponseDTO;
-import com.gabriel.bate_ponto.exceptions.exceptions.UsuarioNaoEncontradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.usuario.UsuarioNaoEncontradoException;
 import com.gabriel.bate_ponto.model.Role;
 import com.gabriel.bate_ponto.model.Usuario;
 import com.gabriel.bate_ponto.repository.UsuarioRepository;

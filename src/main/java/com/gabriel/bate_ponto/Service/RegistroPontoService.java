@@ -1,13 +1,10 @@
 package com.gabriel.bate_ponto.Service;
 
 import com.gabriel.bate_ponto.Service.usuarios.UsuarioService;
-import com.gabriel.bate_ponto.dto.pesquisa.PesquisaRegistroPontoDTO;
 import com.gabriel.bate_ponto.dto.registroPonto.RegistroPontoResponse;
-import com.gabriel.bate_ponto.dto.usuario.UsuarioResponseDTO;
-import com.gabriel.bate_ponto.exceptions.exceptions.CargoNaoEncontradaException;
-import com.gabriel.bate_ponto.exceptions.exceptions.PontoJaRegistradoException;
-import com.gabriel.bate_ponto.exceptions.exceptions.PontoNaoEncontradoException;
-import com.gabriel.bate_ponto.exceptions.exceptions.PontoNaoRegistradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoJaRegistradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoEncontradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoRegistradoException;
 import com.gabriel.bate_ponto.model.RegistroPonto;
 import com.gabriel.bate_ponto.model.Usuario;
 import com.gabriel.bate_ponto.repository.RegistroPontoRepository;
@@ -69,12 +66,12 @@ public class RegistroPontoService {
         }
     }
 
-    public void validarSeRegistroEstaCompleto(LocalDate data){
+    public void validarSetTemQuatroRegistro(LocalDate data){
         List<RegistroPontoResponse> lista = listarPontoPorDia(data);
-        if (lista.size() != 4 && !"Saída".equals(retornarTipo(usuarioService.retornarUsuarioAutenticado(),data)) ){
+        if (lista.size() != 4){
             throw new PontoNaoRegistradoException();
         }
-        // repensar o método.
+        // repensar o metodo.
     }
 
     public String retornarTipo(Usuario usuario, LocalDate data){

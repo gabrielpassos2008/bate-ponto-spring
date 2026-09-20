@@ -1,4 +1,4 @@
-package com.gabriel.bate_ponto.exceptions.exceptions;
+package com.gabriel.bate_ponto.exceptions.exceptions.usuario;
 
 public class UsuarioNaoEncontradoException extends RuntimeException {
     public UsuarioNaoEncontradoException(String message) {
