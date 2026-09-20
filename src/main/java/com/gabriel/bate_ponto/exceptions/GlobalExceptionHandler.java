@@ -6,6 +6,7 @@ import com.gabriel.bate_ponto.exceptions.exceptions.cargo.CargoNaoEncontradaExce
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoJaRegistradoException;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoEncontradoException;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoRegistradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.ponto.SequenciaPontoInvalidaException;
 import com.gabriel.bate_ponto.exceptions.exceptions.usuario.EmailJaExisteException;
 import com.gabriel.bate_ponto.exceptions.exceptions.usuario.UsuarioNaoEncontradoException;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(PontoJaRegistradoException.class)
     public ResponseEntity<MensagemErroDTO> pontoJaRegistrado (PontoJaRegistradoException exception){
+        MensagemErroDTO erro = new MensagemErroDTO(
+                HttpStatus.CONFLICT.value(),
+                exception.getMessage(),
+                HttpStatus.CONFLICT.name());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(erro);
+    }
+    @ExceptionHandler(SequenciaPontoInvalidaException.class)
+    public ResponseEntity<MensagemErroDTO> sequenciaDeRegistrosPontoInvalidos (SequenciaPontoInvalidaException exception){
         MensagemErroDTO erro = new MensagemErroDTO(
                 HttpStatus.CONFLICT.value(),
                 exception.getMessage(),
