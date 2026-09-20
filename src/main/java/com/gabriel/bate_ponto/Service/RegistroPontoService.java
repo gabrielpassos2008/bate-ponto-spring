@@ -5,6 +5,7 @@ import com.gabriel.bate_ponto.dto.registroPonto.RegistroPontoResponse;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoJaRegistradoException;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoEncontradoException;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoRegistradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.ponto.SequenciaPontoInvalidaException;
 import com.gabriel.bate_ponto.model.RegistroPonto;
 import com.gabriel.bate_ponto.model.TipoPonto;
 import com.gabriel.bate_ponto.model.Usuario;
@@ -67,12 +68,23 @@ public class RegistroPontoService {
         }
     }
 
-    public void validarSeTemQuatroRegistro(LocalDate data){
-        List<RegistroPontoResponse> lista = listarPontoPorDia(data);
+    public void validarSeTemQuatroRegistro(List<RegistroPontoResponse> lista){
         if (lista.size() != 4){
             throw new PontoNaoRegistradoException();
         }
         // repensar o metodo.
+    }
+
+    public void validarSeValoresEstaoCorretos(List<RegistroPontoResponse> lista){
+        if (!lista.get(0).tipo().equals(TipoPonto.INICIO)){
+            throw new SequenciaPontoInvalidaException();
+        } else if (!lista.get(1).tipo().equals(TipoPonto.INTERVALO)) {
+            throw new SequenciaPontoInvalidaException();
+        } else if (!lista.get(2).tipo().equals(TipoPonto.FIM_INTERVALO)) {
+            throw new SequenciaPontoInvalidaException();
+        } else if (!lista.get(3).tipo().equals(TipoPonto.SAIDA)) {
+            throw new SequenciaPontoInvalidaException();
+        }
     }
 
 
