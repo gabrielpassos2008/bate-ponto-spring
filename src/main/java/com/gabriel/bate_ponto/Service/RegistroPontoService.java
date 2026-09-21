@@ -1,6 +1,7 @@
 package com.gabriel.bate_ponto.Service;
 
 import com.gabriel.bate_ponto.Service.usuarios.UsuarioService;
+import com.gabriel.bate_ponto.dto.registroPonto.CalculoHorasPorDiaDTO;
 import com.gabriel.bate_ponto.dto.registroPonto.RegistroPontoResponse;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoJaRegistradoException;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoEncontradoException;
@@ -13,6 +14,7 @@ import com.gabriel.bate_ponto.repository.RegistroPontoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -31,7 +33,7 @@ public class RegistroPontoService {
         LocalDate data = LocalDate.now();
         LocalTime hora = LocalTime.now();
         Usuario usuario = usuarioService.retornarUsuarioAutenticado();
-        this.validarSeExistePonto(usuario,data);
+        this.validarSeDiaJaFinalizado(usuario,data);
 
         RegistroPonto ponto = new RegistroPonto();
         ponto.setData(data);
@@ -45,7 +47,7 @@ public class RegistroPontoService {
                 ponto.getHora(),
                 ponto.getTipo());
     }
-
+    // os dois estao duplicados
     public List<RegistroPontoResponse> listarPontoPorDiaDeHoje(){
         return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),LocalDate.now())
                 .orElseThrow(PontoNaoEncontradoException::new)
@@ -53,7 +55,7 @@ public class RegistroPontoService {
                 .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
                 .toList();
     }
-
+    // os dois estao duplicados
     public List<RegistroPontoResponse> listarPontoPorDia(LocalDate data){
         return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),data)
                 .orElseThrow(PontoNaoEncontradoException::new)
@@ -61,9 +63,26 @@ public class RegistroPontoService {
                 .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
                 .toList();
     }
+    public CalculoHorasPorDiaDTO calcularHoras(LocalDate data){
+        List<RegistroPontoResponse> lista = listarPontoPorDia(data);
+        this.validarSeTemQuatroRegistro(lista);
+        this.validarSeValoresEstaoCorretos(lista);
 
-    public void validarSeExistePonto(Usuario usuario, LocalDate data){
-        if(pontoRepository.existsByDataAndUsuarioAndTipo(data,usuario, "Saída")){
+        LocalTime entrada = lista.get(0).hora();
+        LocalTime intervalo = lista.get(1).hora();
+        LocalTime fimIntervalo = lista.get(2).hora();
+        LocalTime saida = lista.get(3).hora();
+
+        Duration primeiroTurno = Duration.between(entrada,intervalo);
+        Duration segundoTurno = Duration.between(fimIntervalo,saida);
+
+        Duration resultado = primeiroTurno.plus(segundoTurno);
+        return new CalculoHorasPorDiaDTO(resultado);
+
+    }
+
+    public void validarSeDiaJaFinalizado(Usuario usuario, LocalDate data){
+        if(pontoRepository.existsByDataAndUsuarioAndTipo(data,usuario, TipoPonto.SAIDA)){
             throw new PontoJaRegistradoException();
         }
     }
