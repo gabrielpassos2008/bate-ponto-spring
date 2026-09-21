@@ -1,6 +1,7 @@
 package com.gabriel.bate_ponto.repository;
 
 import com.gabriel.bate_ponto.model.RegistroPonto;
+import com.gabriel.bate_ponto.model.TipoPonto;
 import com.gabriel.bate_ponto.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,5 +15,8 @@ public interface RegistroPontoRepository extends JpaRepository<RegistroPonto,Lon
 
     Optional<List<RegistroPonto>> findByUsuarioAndData(Usuario usuario, LocalDate data);
 
-    boolean existsByDataAndUsuarioAndTipo(LocalDate data, Usuario usuario, String tipo);
+    // ordena pela ordem crescente.
+    Optional<List<RegistroPonto>> findByUsuarioAndDataOrderByHoraAsc(Usuario usuario, LocalDate data);
+
+    boolean existsByDataAndUsuarioAndTipo(LocalDate data, Usuario usuario, TipoPonto tipo);
 }
