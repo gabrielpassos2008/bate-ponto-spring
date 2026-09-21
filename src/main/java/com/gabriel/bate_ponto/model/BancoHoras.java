@@ -26,6 +26,6 @@ public class BancoHoras {
     private LocalTime SaldoEsperado;
 
     @ManyToOne
-    @JoinColumn(name = "fk_cargo_id")
-    private Cargo cargo;
+    @JoinColumn(name = "fk_usuario_id")
+    private Usuario usuario;
 }
