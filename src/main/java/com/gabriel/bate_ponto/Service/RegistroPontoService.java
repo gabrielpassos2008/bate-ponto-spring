@@ -5,7 +5,6 @@ import com.gabriel.bate_ponto.dto.registroPonto.CalculoHorasPorDiaDTO;
 import com.gabriel.bate_ponto.dto.registroPonto.RegistroPontoResponse;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoJaRegistradoException;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoEncontradoException;
-import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoNaoRegistradoException;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.SequenciaPontoInvalidaException;
 import com.gabriel.bate_ponto.model.RegistroPonto;
 import com.gabriel.bate_ponto.model.TipoPonto;
@@ -75,18 +74,21 @@ public class RegistroPontoService {
     }
 
     public void validarSeDiaJaFinalizado(Usuario usuario, LocalDate data){
+        // faz a validação se naquele dia possui um registro com saida.
         if(pontoRepository.existsByDataAndUsuarioAndTipo(data,usuario, TipoPonto.SAIDA)){
             throw new PontoJaRegistradoException();
         }
     }
 
     public void validarSeTemQuatroRegistro(List<RegistroPontoResponse> lista){
+        // faz a validação se existes quatro registros naquela na lista enviada como parâmetro.
         if (lista.size() != 4){
-            throw new PontoNaoRegistradoException();
+            throw new SequenciaPontoInvalidaException();
         }
     }
 
     public void validarSeValoresEstaoCorretos(List<RegistroPontoResponse> lista){
+        // faz a validação se os quatro registros estão no padrão.
         if (!lista.get(0).tipo().equals(TipoPonto.INICIO)){
             throw new SequenciaPontoInvalidaException();
         } else if (!lista.get(1).tipo().equals(TipoPonto.INTERVALO)) {
