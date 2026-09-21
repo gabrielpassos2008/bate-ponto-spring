@@ -47,15 +47,7 @@ public class RegistroPontoService {
                 ponto.getHora(),
                 ponto.getTipo());
     }
-    // os dois estao duplicados
-    public List<RegistroPontoResponse> listarPontoPorDiaDeHoje(){
-        return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),LocalDate.now())
-                .orElseThrow(PontoNaoEncontradoException::new)
-                .stream()
-                .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
-                .toList();
-    }
-    // os dois estao duplicados
+
     public List<RegistroPontoResponse> listarPontoPorDia(LocalDate data){
         return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),data)
                 .orElseThrow(PontoNaoEncontradoException::new)
@@ -63,6 +55,7 @@ public class RegistroPontoService {
                 .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
                 .toList();
     }
+
     public CalculoHorasPorDiaDTO calcularHoras(LocalDate data){
         List<RegistroPontoResponse> lista = listarPontoPorDia(data);
         this.validarSeTemQuatroRegistro(lista);
@@ -91,7 +84,6 @@ public class RegistroPontoService {
         if (lista.size() != 4){
             throw new PontoNaoRegistradoException();
         }
-        // repensar o metodo.
     }
 
     public void validarSeValoresEstaoCorretos(List<RegistroPontoResponse> lista){
@@ -105,7 +97,6 @@ public class RegistroPontoService {
             throw new SequenciaPontoInvalidaException();
         }
     }
-
 
     public TipoPonto retornarTipo(Usuario usuario, LocalDate data){
         RegistroPonto ponto = pontoRepository.findTopByUsuarioAndDataOrderByHoraDesc(usuario,data);

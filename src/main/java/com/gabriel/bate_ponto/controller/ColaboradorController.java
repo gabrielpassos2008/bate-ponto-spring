@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -29,7 +30,7 @@ public class ColaboradorController {
     public ResponseEntity<List<RegistroPontoResponse>> getListarPontos(){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(pontoService.listarPontoPorDiaDeHoje());
+                .body(pontoService.listarPontoPorDia(LocalDate.now()));
     }
     @GetMapping("/listar/registros/pesquisar")
     public ResponseEntity<List<RegistroPontoResponse>> getPesquisarPontos(@RequestBody @Valid PesquisaRegistroPontoDTO dto){
