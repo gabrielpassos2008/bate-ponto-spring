@@ -49,7 +49,7 @@ public class RegistroPontoService {
     }
 
     public List<RegistroPontoResponse> listarPontoPorDia(LocalDate data){
-        return pontoRepository.findByUsuarioAndData(usuarioService.retornarUsuarioAutenticado(),data)
+        return pontoRepository.findByUsuarioAndDataOrderByHoraAsc(usuarioService.retornarUsuarioAutenticado(),data)
                 .orElseThrow(PontoNaoEncontradoException::new)
                 .stream()
                 .map(ponto -> new RegistroPontoResponse(ponto.getData(),ponto.getHora(),ponto.getTipo()))
