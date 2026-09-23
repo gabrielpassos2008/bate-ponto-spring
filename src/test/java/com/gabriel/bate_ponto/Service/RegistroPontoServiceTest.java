@@ -81,4 +81,11 @@ public class RegistroPontoServiceTest {
         verify(repository).existsByDataAndUsuarioAndTipo(LocalDate.now(),usuario,TipoPonto.SAIDA);
     }
 
+    @Test
+    void validarSeDiaJaFinalizado_quandoNaoEsta(){
+        when(repository.existsByDataAndUsuarioAndTipo(LocalDate.now(),usuario,TipoPonto.SAIDA)).thenReturn(false);
+        service.validarSeDiaJaFinalizado(usuario,LocalDate.now());
+        verify(repository).existsByDataAndUsuarioAndTipo(LocalDate.now(),usuario,TipoPonto.SAIDA);
+    }
+
 }
