@@ -96,8 +96,6 @@ public class RegistroPontoServiceTest {
         List<RegistroPontoResponse> lista = new ArrayList<>();
 
         lista.add(new RegistroPontoResponse(inicio.getData(),inicio.getHora(),inicio.getTipo()));
-        lista.add(new RegistroPontoResponse(intervalo.getData(),inicio.getHora(),inicio.getTipo()));
-        lista.add(new RegistroPontoResponse(fimIntervalo.getData(),inicio.getHora(),inicio.getTipo()));
 
         assertThrows(SequenciaPontoInvalidaException.class,()-> service.validarSeTemQuatroRegistro(lista));
     }
@@ -112,6 +110,18 @@ public class RegistroPontoServiceTest {
         lista.add(new RegistroPontoResponse(saida.getData(),inicio.getHora(),inicio.getTipo()));
 
         assertDoesNotThrow(()->service.validarSeTemQuatroRegistro(lista));
+    }
+
+    @Test
+    void validarSeValoresEstaoCorretos_quandoNaoCorreto(){
+        List<RegistroPontoResponse> lista = new ArrayList<>();
+
+        lista.add(new RegistroPontoResponse(intervalo.getData(),inicio.getHora(),inicio.getTipo()));
+        lista.add(new RegistroPontoResponse(inicio.getData(),inicio.getHora(),inicio.getTipo()));
+        lista.add(new RegistroPontoResponse(fimIntervalo.getData(),inicio.getHora(),inicio.getTipo()));
+        lista.add(new RegistroPontoResponse(saida.getData(),inicio.getHora(),inicio.getTipo()));
+
+        assertThrows(SequenciaPontoInvalidaException.class,()->service.validarSeValoresEstaoCorretos(lista));
     }
 
 }
