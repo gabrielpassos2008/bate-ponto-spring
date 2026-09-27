@@ -20,8 +20,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -101,7 +100,18 @@ public class RegistroPontoServiceTest {
         lista.add(new RegistroPontoResponse(fimIntervalo.getData(),inicio.getHora(),inicio.getTipo()));
 
         assertThrows(SequenciaPontoInvalidaException.class,()-> service.validarSeTemQuatroRegistro(lista));
+    }
 
+    @Test
+    void validarSeTemQuatroRegistro_quandoExiste(){
+        List<RegistroPontoResponse> lista = new ArrayList<>();
+
+        lista.add(new RegistroPontoResponse(inicio.getData(),inicio.getHora(),inicio.getTipo()));
+        lista.add(new RegistroPontoResponse(intervalo.getData(),inicio.getHora(),inicio.getTipo()));
+        lista.add(new RegistroPontoResponse(fimIntervalo.getData(),inicio.getHora(),inicio.getTipo()));
+        lista.add(new RegistroPontoResponse(saida.getData(),inicio.getHora(),inicio.getTipo()));
+
+        assertDoesNotThrow(()->service.validarSeTemQuatroRegistro(lista));
     }
 
 }
