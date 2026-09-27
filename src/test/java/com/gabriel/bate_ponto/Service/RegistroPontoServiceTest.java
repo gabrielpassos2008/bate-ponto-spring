@@ -3,6 +3,7 @@ package com.gabriel.bate_ponto.Service;
 import com.gabriel.bate_ponto.Service.usuarios.UsuarioService;
 import com.gabriel.bate_ponto.dto.registroPonto.RegistroPontoResponse;
 import com.gabriel.bate_ponto.exceptions.exceptions.ponto.PontoJaRegistradoException;
+import com.gabriel.bate_ponto.exceptions.exceptions.ponto.SequenciaPontoInvalidaException;
 import com.gabriel.bate_ponto.model.RegistroPonto;
 import com.gabriel.bate_ponto.model.TipoPonto;
 import com.gabriel.bate_ponto.model.Usuario;
@@ -16,6 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
@@ -86,6 +90,18 @@ public class RegistroPontoServiceTest {
         when(repository.existsByDataAndUsuarioAndTipo(LocalDate.now(),usuario,TipoPonto.SAIDA)).thenReturn(false);
         service.validarSeDiaJaFinalizado(usuario,LocalDate.now());
         verify(repository).existsByDataAndUsuarioAndTipo(LocalDate.now(),usuario,TipoPonto.SAIDA);
+    }
+
+    @Test
+    void validarSeTemQuatroRegistro_quandoNaoExiste(){
+        List<RegistroPontoResponse> lista = new ArrayList<>();
+
+        lista.add(new RegistroPontoResponse(inicio.getData(),inicio.getHora(),inicio.getTipo()));
+        lista.add(new RegistroPontoResponse(intervalo.getData(),inicio.getHora(),inicio.getTipo()));
+        lista.add(new RegistroPontoResponse(fimIntervalo.getData(),inicio.getHora(),inicio.getTipo()));
+
+        assertThrows(SequenciaPontoInvalidaException.class,()-> service.validarSeTemQuatroRegistro(lista));
+
     }
 
 }
